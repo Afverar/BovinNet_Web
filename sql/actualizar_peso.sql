@@ -8,3 +8,6 @@ ALTER TABLE animal ADD COLUMN peso DECIMAL(6,2) NULL AFTER sexo;
 -- 4) Para vincular cada cría con su madre (módulo Nacimientos), si NO aparece 'id_animal_madre':
 -- ALTER TABLE animal ADD COLUMN id_animal_madre INT UNSIGNED NULL;
 -- ALTER TABLE animal ADD CONSTRAINT fk_animal_madre FOREIGN KEY (id_animal_madre) REFERENCES animal (id_animal) ON UPDATE CASCADE ON DELETE SET NULL;
+-- 5) El panel principal cuenta bajas/nacimientos/vacunaciones por MES. No requiere columnas
+--    nuevas, pero necesita datos con fecha dentro del mes actual y del mes anterior para
+--    mostrar comparativos distintos de cero.

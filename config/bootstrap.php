@@ -73,3 +73,14 @@ function campoCsrf(): string
 {
     return '<input type="hidden" name="csrf" value="' . e(\BovinNet\Security\Sesion::token()) . '">';
 }
+
+/** Texto de variación mensual: "+3 este mes" / "-1 este mes" / "Sin cambios". */
+function deltaMensual(int $actual, int $anterior): string
+{
+    $diferencia = $actual - $anterior;
+    if ($diferencia === 0) {
+        return 'Igual que el mes anterior';
+    }
+    $signo = $diferencia > 0 ? '+' : '';
+    return $signo . $diferencia . ' vs. mes anterior';
+}
