@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "^\.(git|env|htaccess)">
+    Require all denied
+</FilesMatch>

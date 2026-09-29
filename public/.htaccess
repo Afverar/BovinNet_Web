@@ -1,0 +1,3 @@
+<FilesMatch "\.view\.php$">
+    Require all denied
+</FilesMatch>

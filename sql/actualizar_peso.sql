@@ -1,0 +1,10 @@
+-- Ejecutar en phpMyAdmin (pestaña SQL) sobre la BD bovinnet SIN borrar datos.
+-- 1) Revise primero qué columnas tiene realmente su tabla:
+--      DESCRIBE animal;
+-- 2) Si NO aparece 'peso', ejecute:
+ALTER TABLE animal ADD COLUMN peso DECIMAL(6,2) NULL AFTER sexo;
+-- 3) Si NO aparece 'fecha_nacimiento' (o tiene otro nombre), ejecute:
+-- ALTER TABLE animal ADD COLUMN fecha_nacimiento DATE NULL AFTER peso;
+-- 4) Para vincular cada cría con su madre (módulo Nacimientos), si NO aparece 'id_animal_madre':
+-- ALTER TABLE animal ADD COLUMN id_animal_madre INT UNSIGNED NULL;
+-- ALTER TABLE animal ADD CONSTRAINT fk_animal_madre FOREIGN KEY (id_animal_madre) REFERENCES animal (id_animal) ON UPDATE CASCADE ON DELETE SET NULL;
