@@ -9,3 +9,5 @@ Thumbs.db
 
 # Dependencias (si se usa Composer para las pruebas)
 vendor/
+.phpunit.cache/
+composer.lock
