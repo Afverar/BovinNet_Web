@@ -55,10 +55,25 @@ CREATE TABLE usuario (
       ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT fk_usuario_finca FOREIGN KEY (id_finca)
       REFERENCES finca (id_finca)
-      ON UPDATE CASCADE ON DELETE SET NULL,
-  CONSTRAINT ck_usuario_mayor_edad
-      CHECK (fecha_nacimiento <= DATE_SUB(CURDATE(), INTERVAL 18 YEAR))
+      ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+-- Regla de mayoria de edad (18 anios). En MySQL 8 una restriccion CHECK no admite CURDATE()
+-- (funcion no determinista), por eso la regla se aplica con disparadores (triggers).
+DELIMITER $$
+CREATE TRIGGER trg_usuario_mayor_edad_bi BEFORE INSERT ON usuario FOR EACH ROW
+BEGIN
+  IF NEW.fecha_nacimiento > DATE_SUB(CURDATE(), INTERVAL 18 YEAR) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El usuario debe ser mayor de edad (18 anios)';
+  END IF;
+END$$
+CREATE TRIGGER trg_usuario_mayor_edad_bu BEFORE UPDATE ON usuario FOR EACH ROW
+BEGIN
+  IF NEW.fecha_nacimiento > DATE_SUB(CURDATE(), INTERVAL 18 YEAR) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El usuario debe ser mayor de edad (18 anios)';
+  END IF;
+END$$
+DELIMITER ;
 
 -- ---------------------------------------------------------
 -- Tabla: lote
